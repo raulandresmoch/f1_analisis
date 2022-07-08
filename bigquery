@@ -1,0 +1,60 @@
+## Numero de puntos totales por piloto
+
+SELECT 
+  sum(rs.points),
+  dr.driverRef
+FROM 
+  `evocative-ethos-349614.f1_data.results` as rs
+  JOIN
+  `evocative-ethos-349614.f1_data.drivers` as dr
+    ON rs.diveID = dr.driverId 
+GROUP BY
+  dr.driverRef
+ORDER BY
+  1 DESC;
+
+## Numero de Victorias por Piloto
+
+SELECT 
+  sum(rs.position),
+  dr.driverRef
+FROM 
+  `evocative-ethos-349614.f1_data.results` as rs
+  JOIN
+  `evocative-ethos-349614.f1_data.drivers` as dr
+    ON rs.diveID = dr.driverId 
+WHERE 
+  rs.position = 1
+GROUP BY
+  dr.driverRef
+ORDER BY
+  1 DESC;
+
+## Numero de Carreras por Piloto
+
+SELECT 
+  count(rs.gid) as part_races,
+  dr.driverRef
+FROM 
+  `evocative-ethos-349614.f1_data.results` as rs
+  JOIN
+  `evocative-ethos-349614.f1_data.drivers` as dr
+    ON rs.diveID = dr.driverId 
+GROUP BY
+  dr.driverRef
+ORDER BY
+  1 DESC;
+
+ ## Promedio de puntos por carrera por piloto
+
+
+SELECT
+  round((pp.puntos_totales/nc.part_races),2) as por_punt_carr,
+  pp.driverRef
+FROM
+  `evocative-ethos-349614.f1_data.numero_carreras` as nc
+  JOIN
+  `evocative-ethos-349614.f1_data.puntos_piloto` as pp
+    ON nc.driverRef = pp.driverRef
+ORDER BY
+  1 DESC;
